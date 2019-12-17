@@ -14,7 +14,7 @@ class App extends Component {
 
   componentDidMount() {
     axios
-      .get("https://jsonplaceholder.typicode.com/todos?_limit=20")
+      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
       .then(res => this.setState({ todos: res.data }));
   }
 
@@ -40,15 +40,12 @@ class App extends Component {
 
   // Add Todo
   addTodo = title => {
-    const newTodo = {
-      id: uuid.v4(),
-      title,
-      completed: false
-    };
-    console.log("Title: " + title);
-    this.setState({
-      todos: [...this.state.todos, newTodo]
-    });
+    axios
+      .post("https://jsonplaceholder.typicode.com/todos", {
+        title,
+        completed: false
+      })
+      .then(res => this.setState({ todos: [...this.state.todos, res.data] }));
   };
 
   render() {
